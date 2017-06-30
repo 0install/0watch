@@ -14,7 +14,22 @@ To make the `0watch` command available on your command-line you can run:
 
     0alias 0watch http://0install.de/feeds/0watch.xml
 
-TODO: Explain usage
+To use 0watch you need both a template file named like `MyApp.xml.template` and watch file named like `MyApp.py` in the same directory. You can then run:
+
+    0watch MyApp.py
+
+
+Details
+-------
+
+A watch file is a Python script that pulls a list of releases from a website. It must set an attribute named `releases` to an array of dictionaries. Each array element represents to a single release and each dictionary tuple is a variable substitution for the template.
+
+For each release reported by the watch file 0watch attempts to determine whether the version is already known. It does this by:
+
+ * checking if a file named `MyApp-VERSION.xml` exists in the same directory and
+ * checking if a file named `MyApp.xml` exists in the same directory and contains an implementation with the version.
+
+0watch then calls 0template once for each new release.
 
 
 Conditions
