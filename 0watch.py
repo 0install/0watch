@@ -36,8 +36,10 @@ if not os.path.exists(watch_file):
 if not os.path.exists(template_file):
     die("Template file '{template_file}' must exist".format(template_file = template_file))
 
+# Load watch file as Python module
 sys.path.insert(0, os.path.dirname(watch_file_stem))
 watch_module = importlib.import_module(os.path.basename(watch_file_stem))
+del sys.path[0]
 releases = getattr(watch_module, 'releases', None)
 if not releases:
     die("Watch file must set array of dicts 'releases'")
