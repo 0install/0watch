@@ -60,4 +60,5 @@ def flatten(dict):
 for release in releases:
     version = release['version']
     if not already_known(version):
-        subprocess.call(['0template', '--output', versioned_feed_file(version), template_file] + flatten(release))
+        retval = subprocess.call(['0template', '--output', versioned_feed_file(version), template_file] + flatten(release))
+        if retval != 0: sys.exit(retval)
