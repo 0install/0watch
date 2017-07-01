@@ -51,14 +51,7 @@ def already_known(version):
             if v == version: return True
     return False
 
-def flatten(dict):
-    ret = []
-    for (key, value) in dict.items():
-        ret.append(key + '=' + value)
-    return ret
-
 for release in releases:
-    version = release['version']
-    if not already_known(version):
-        retval = subprocess.call(['0template', '--output', versioned_feed_file(version), template_file] + flatten(release))
-        if retval != 0: sys.exit(retval)
+    if already_known(release['version']): continue
+    retval = subprocess.call(['0template', '--output', versioned_feed_file(release['version']), template_file] + [key + '=' + value for (key, value) in release.items()])
+    if retval != 0: sys.exit(retval)
