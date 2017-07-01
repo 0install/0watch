@@ -24,6 +24,15 @@ Details
 
 A watch file is a Python script that pulls a list of releases from a website. It must set an attribute named `releases` to an array of dictionaries. Each array element represents to a single release and each dictionary tuple is a variable substitution for the template.
 
+A basic watch file could look like this:
+
+```python
+from urllib import request
+import json
+data = request.urlopen(request.Request('https://api.github.com/repos/myproj/myapp/releases')).read()
+releases = [{'version': release['tag_name'], 'released': release['published_at'][0:10]} for release in json.loads(data)]
+```
+
 For each release reported by the watch file 0watch attempts to determine whether the version is already known. It does this by:
 
  * checking if a file named `MyApp-VERSION.xml` exists in the same directory and
