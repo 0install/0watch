@@ -30,6 +30,6 @@
       <executable-in-path name="0template"/>
     </requires>
 
-    <implementation id="." version="0.1"/>
+    <implementation id="." version="0.1-post"/>
   </group>
 </interface>
