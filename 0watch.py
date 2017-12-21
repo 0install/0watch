@@ -33,9 +33,9 @@ template_file = watch_file_stem + '.xml.template'
 if not os.path.exists(template_file):
     die("Template file '{template_file}' must exist".format(template_file = template_file))
 
-feed_file_stem = watch_file_stem if args.output is None else os.path.join(args.output, os.path.basename(watch_file_stem))
-feed_file = feed_file_stem + ".xml"
-def versioned_feed_file(version): return feed_file_stem + '-' + version + '.xml'
+output_stem = watch_file_stem if args.output is None else os.path.join(args.output, os.path.basename(watch_file_stem))
+feed_file = watch_file_stem + '.xml'
+def output_file(version): return output_stem + '-' + version + '.xml'
 
 watch_module = imp.load_source('watch', watch_file);
 releases = getattr(watch_module, 'releases', None)
@@ -43,7 +43,7 @@ if not releases:
     die("Watch file must set array of dicts 'releases'")
 
 def already_known(version):
-    if os.path.exists(versioned_feed_file(version)): return True    
+    if os.path.exists(output_file(version)): return True
     if os.path.exists(feed_file):
         doc = minidom.parse(feed_file)
         for elem in doc.getElementsByTagNameNS(namespaces.XMLNS_IFACE, 'implementation') + doc.getElementsByTagNameNS(namespaces.XMLNS_IFACE, 'group'):
@@ -53,5 +53,5 @@ def already_known(version):
 
 for release in releases:
     if already_known(release['version']): continue
-    retval = subprocess.call(['0template', '--output', versioned_feed_file(release['version']), template_file] + [key + '=' + value for (key, value) in release.items()])
+    retval = subprocess.call(['0template', '--output', output_file(release['version']), template_file] + [key + '=' + value for (key, value) in release.items()])
     if retval != 0: sys.exit(retval)
