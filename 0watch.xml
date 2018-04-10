@@ -31,7 +31,7 @@
       <executable-in-path name="0template"/>
     </requires>
 
-    <implementation id="." version="0.1-post"/>
+    <implementation id="." released="2018-04-11" version="0.2"/>
   </group>
 
   <entry-point binary-name="0watch" command="run"/>

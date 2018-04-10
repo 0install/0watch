@@ -15,7 +15,7 @@ def die(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
 
-version = '0.1'
+version = '0.2'
 
 parser = argparse.ArgumentParser(description='Scan a website for new releases and trigger 0template if required.')
 parser.add_argument('watch_file', help='Python script that pulls a list of releases from a website')
