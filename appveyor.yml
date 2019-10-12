@@ -1,0 +1,21 @@
+image: Visual Studio 2017
+
+cache:
+  - '%LOCALAPPDATA%\0install.net'
+  - '%APPDATA%\0install.net'
+
+before_build:
+  - gitversion /l console /output buildserver
+
+build_script:
+  - ps: feed\build.ps1 $env:GitVersion_NuGetVersion -GitHubRelease:$($env:APPVEYOR_REPO_TAG -eq "true")
+
+artifacts:
+  - path: feed\*.xml
+  - path: feed\*.tar.gz
+
+deploy:
+  - provider: Environment
+    name: GitHub Releases
+    on:
+      appveyor_repo_tag: true

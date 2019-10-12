@@ -1,5 +1,4 @@
-<?xml version="1.0" ?>
-<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
+<?xml version="1.0" encoding="utf-8"?>
 <interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
   <name>0watch</name>
   <summary>scans websites for new releases and triggers 0template if required</summary>
@@ -10,11 +9,6 @@
   <homepage>https://github.com/0install/0watch</homepage>
   <needs-terminal/>
 
-  <release:management xmlns:release="http://zero-install.sourceforge.net/2007/namespaces/0release">
-    <!-- Update the copy of the version number in the code -->
-    <release:action phase="commit-release">sed -i &quot;s/^version = '.*'$/version = '$RELEASE_VERSION'/&quot; 0watch.py</release:action>
-  </release:management>
-
   <feed-for interface="http://0install.de/feeds/0watch.xml"/>
 
   <group license="OSI Approved :: GNU Lesser General Public License (LGPL)">
@@ -22,17 +16,12 @@
       <runner interface="http://repo.roscidus.com/python/python"/>
     </command>
 
-    <requires interface="http://0install.net/2007/interfaces/ZeroInstall.xml">
-      <environment insert="" mode="prepend" name="PYTHONPATH"/>
-      <version not-before="2.2-post"/>
-    </requires>
-
     <requires interface="http://0install.net/tools/0template.xml">
       <executable-in-path name="0template"/>
     </requires>
 
-    <implementation id="." version="0.2-post"/>
+    <implementation version="{version}" stability="{stability}" local-path="../src">
+      <archive href="0watch-{version}.tar.gz"/>
+    </implementation>
   </group>
-
-  <entry-point binary-name="0watch" command="run"/>
 </interface>
