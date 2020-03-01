@@ -9,7 +9,7 @@
   <homepage>https://github.com/0install/0watch</homepage>
   <needs-terminal/>
 
-  <feed-for interface="http://0install.de/feeds/0watch.xml"/>
+  <feed-for interface="https://apps.0install.net/0install/0watch.xml"/>
 
   <group license="OSI Approved :: GNU Lesser General Public License (LGPL)">
     <command name="run" path="0watch.py">
