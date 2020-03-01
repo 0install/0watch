@@ -9,13 +9,12 @@ import sys
 import imp
 import subprocess
 from xml.dom import minidom
-from zeroinstall.injector import namespaces
+
+XMLNS_IFACE= 'http://zero-install.sourceforge.net/2004/injector/interface'
 
 def die(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
-
-version = '0.2'
 
 parser = argparse.ArgumentParser(description='Scan a website for new releases and trigger 0template if required.')
 parser.add_argument('watch_file', help='Python script that pulls a list of releases from a website')
@@ -46,7 +45,7 @@ def already_known(version):
     if os.path.exists(output_file(version)): return True
     if os.path.exists(feed_file):
         doc = minidom.parse(feed_file)
-        for elem in doc.getElementsByTagNameNS(namespaces.XMLNS_IFACE, 'implementation') + doc.getElementsByTagNameNS(namespaces.XMLNS_IFACE, 'group'):
+        for elem in doc.getElementsByTagNameNS(XMLNS_IFACE, 'implementation') + doc.getElementsByTagNameNS(XMLNS_IFACE, 'group'):
             v = elem.getAttribute('version')
             if v == version: return True
     return False
