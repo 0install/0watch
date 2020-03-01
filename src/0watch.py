@@ -37,7 +37,7 @@ output_stem = watch_file_stem if args.output is None else os.path.join(args.outp
 feed_file = watch_file_stem + '.xml'
 def output_file(version): return output_stem + '-' + version + '.xml'
 
-watch_module = imp.load_source('watch', watch_file);
+watch_module = imp.load_source('watch', watch_file)
 releases = getattr(watch_module, 'releases', None)
 if not releases:
     die("Watch file must set array of dicts 'releases'")
