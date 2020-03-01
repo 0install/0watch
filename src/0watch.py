@@ -5,7 +5,6 @@ from __future__ import print_function
 
 import argparse
 import sys
-import imp
 import subprocess
 from os import path
 from xml.dom import minidom
@@ -15,6 +14,14 @@ XMLNS_IFACE= 'http://zero-install.sourceforge.net/2004/injector/interface'
 def die(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
+
+def load(name, path):
+    if sys.version_info >= (3,):
+        from importlib.machinery import SourceFileLoader
+        return SourceFileLoader(name, path).load_module()
+    else:
+        import imp
+        return imp.load_source(name, path)
 
 parser = argparse.ArgumentParser(description='Scan a website for new releases and trigger 0template if required.')
 parser.add_argument('watch_file', help='Python script that pulls a list of releases from a website')
@@ -36,7 +43,7 @@ output_stem = watch_file_stem if args.output is None else path.join(args.output,
 feed_file = watch_file_stem + '.xml'
 def output_file(version): return output_stem + '-' + version + '.xml'
 
-watch_module = imp.load_source('watch', watch_file)
+watch_module = load('watch', watch_file)
 releases = getattr(watch_module, 'releases', None)
 if not releases:
     die("Watch file must set array of dicts 'releases'")
