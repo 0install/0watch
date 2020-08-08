@@ -8,7 +8,7 @@ before_build:
   - gitversion /l console /output buildserver
 
 build_script:
-  - ps: feed\build.ps1 $env:GitVersion_NuGetVersion -GitHubRelease:$($env:APPVEYOR_REPO_TAG -eq "true")
+  - ps: feed\build.ps1 $env:GitVersion_NuGetVersion
 
 artifacts:
   - path: feed\*.xml
