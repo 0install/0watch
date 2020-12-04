@@ -1,0 +1,43 @@
+name: Build
+on:
+  push:
+    tags: ['*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Prepare
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.5.x'
+      - uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+
+      # Build
+      - name: Package
+        run: tar -czf 0watch-${{steps.gitversion.outputs.nuGetVersion}}.tar.gz *.py
+
+      # Release
+      - name: Create GitHub Release
+        if: steps.gitversion.outputs.preReleaseLabel == ''
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{github.ref}}
+          release_name: ${{github.ref}}
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+      - name: Upload Release Asset
+        if: steps.gitversion.outputs.preReleaseLabel == ''
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{steps.create_release.outputs.upload_url}}
+          asset_path: 0watch-${{steps.gitversion.outputs.nuGetVersion}}.tar.gz
+          asset_name: 0watch-${{steps.gitversion.outputs.nuGetVersion}}.tar.gz
+          asset_content_type: application/gzip
+        env:
+          GITHUB_TOKEN: ${{github.token}}

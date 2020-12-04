@@ -20,9 +20,7 @@
       <executable-in-path name="0template"/>
     </requires>
 
-    <implementation version="{version}" stability="{stability}" local-path="../src">
-      <manifest-digest/>
-      <archive href="0watch-{version}.tar.gz"/>
-    </implementation>
+    <!-- Treat local checkout as newer than any public version. -->
+    <implementation id="." version="100-pre"/>
   </group>
 </interface>
