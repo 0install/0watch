@@ -12,7 +12,7 @@ When new releases are detected [0template](https://github.com/0install/0template
 
 To make the `0watch` command available on your command-line you can run:
 
-    0alias 0watch http://0install.de/feeds/0watch.xml
+    0install add 0watch http://0install.de/feeds/0watch.xml
 
 To use 0watch you need both a template file named like `MyApp.xml.template` and watch file named like `MyApp.watch.py` in the same directory. You can then run:
 
