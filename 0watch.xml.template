@@ -21,8 +21,8 @@
     </requires>
 
     <implementation version="{version}" local-path=".">
-        <manifest-digest/>
-        <archive href="0watch-{version}.tar.gz"/>
-      </implementation>
+      <manifest-digest/>
+      <archive href="0watch-{version}.tar.gz"/>
+    </implementation>
   </group>
 </interface>
