@@ -16,29 +16,20 @@ jobs:
         id: gitversion
 
       # Build
-      - name: Build feed
-        run: ./0install.sh run https://apps.0install.net/0install/0template.xml 0watch.xml.template version=${{steps.gitversion.outputs.nuGetVersion}}
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          path: 0watch-${{steps.gitversion.outputs.nuGetVersion}}.*
+      - name: 0template
+        run: ./0install.sh run https://apps.0install.net/0install/0template.xml 0watch.xml.template version=${{steps.gitversion.outputs.legacySemVer}}
 
       # Release
       - name: Create GitHub Release
         if: steps.gitversion.outputs.preReleaseLabel == ''
         uses: softprops/action-gh-release@v1
         with:
-          files: 0watch-${{steps.gitversion.outputs.nuGetVersion}}.*
+          files: 0watch-${{steps.gitversion.outputs.legacySemVer}}.*
       - name: Publish feed
         if: steps.gitversion.outputs.preReleaseLabel == ''
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          repo: 0install/apps
-          ref: refs/heads/master
-          workflow: Incoming
-          token: ${{secrets.PERSONAL_TOKEN}}
-          inputs: >
-            {
-              "feed_url": "https://github.com/${{github.repository}}/releases/download/${{steps.gitversion.outputs.nuGetVersion}}/0watch-${{steps.gitversion.outputs.nuGetVersion}}.xml",
-              "archive_url": "https://github.com/${{github.repository}}/releases/download/${{steps.gitversion.outputs.nuGetVersion}}/0watch-${{steps.gitversion.outputs.nuGetVersion}}.tar.gz"
-            }
+        env:
+          GH_TOKEN: ${{secrets.PERSONAL_TOKEN}}
+        run: >
+          gh workflow run --repo=0install/apps Incoming
+          -f feed_url=https://github.com/${{github.repository}}/releases/download/${{steps.gitversion.outputs.legacySemVer}}/0watch-${{steps.gitversion.outputs.legacySemVer}}.xml
+          -f archive_url=https://github.com/${{github.repository}}/releases/download/${{steps.gitversion.outputs.legacySemVer}}/0watch-${{steps.gitversion.outputs.legacySemVer}}.tar.bz2

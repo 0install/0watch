@@ -5,4 +5,4 @@ __pycache__/
 
 # Output
 /0watch-*.xml
-/0watch-*.tar.gz
+/0watch-*.tar.bz2
