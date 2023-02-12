@@ -4,5 +4,5 @@ __pycache__/
 .idea/
 
 # Output
-/feed/*.xml
-/feed/*.tar.gz
+/0watch-*.xml
+/0watch-*.tar.gz
