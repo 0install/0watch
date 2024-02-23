@@ -16,6 +16,10 @@
       <runner interface="https://apps.0install.net/python/python.xml"/>
     </command>
 
+    <requires interface="https://apps.0install.net/0install/0install-python.xml">
+      <environment insert="" mode="prepend" name="PYTHONPATH"/>
+    </requires>
+
     <requires interface="http://0install.net/tools/0template.xml">
       <executable-in-path name="0template"/>
     </requires>

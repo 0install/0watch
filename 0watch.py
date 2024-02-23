@@ -8,6 +8,7 @@ import sys
 import subprocess
 from os import path
 from xml.dom import minidom
+from zeroinstall.injector import model
 
 XMLNS_IFACE= 'http://zero-install.sourceforge.net/2004/injector/interface'
 
@@ -41,7 +42,7 @@ if not path.exists(template_file):
 
 output_stem = watch_file_stem if args.output is None else path.join(args.output, path.basename(watch_file_stem))
 feed_file = watch_file_stem + '.xml'
-def output_file(version): return output_stem + '-' + version + '.xml'
+def output_file(version): return output_stem + '-' + model.format_version(version) + '.xml'
 
 watch_module = load('watch', watch_file)
 releases = getattr(watch_module, 'releases', None)
@@ -53,11 +54,11 @@ def already_known(version):
     if path.exists(feed_file):
         doc = minidom.parse(feed_file)
         for elem in doc.getElementsByTagNameNS(XMLNS_IFACE, 'implementation') + doc.getElementsByTagNameNS(XMLNS_IFACE, 'group'):
-            v = elem.getAttribute('version')
-            if v == version: return True
+            if model.parse_version(elem.getAttribute('version')) == version: return True
     return False
 
 for release in releases:
-    if already_known(release['version']): continue
-    retval = subprocess.call(['0template', '--output', output_file(release['version']), template_file] + [key + '=' + value for (key, value) in release.items()])
+    version = model.parse_version(release['version'])
+    if already_known(version): continue
+    retval = subprocess.call(['0template', '--output', output_file(version), template_file] + [key + '=' + value for (key, value) in release.items()])
     if retval != 0: sys.exit(retval)
