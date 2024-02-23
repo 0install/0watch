@@ -54,7 +54,8 @@ def already_known(version):
     if path.exists(feed_file):
         doc = minidom.parse(feed_file)
         for elem in doc.getElementsByTagNameNS(XMLNS_IFACE, 'implementation') + doc.getElementsByTagNameNS(XMLNS_IFACE, 'group'):
-            if model.parse_version(elem.getAttribute('version')) == version: return True
+            v = elem.getAttribute('version')
+            if v != '' and model.parse_version(v) == version: return True
     return False
 
 for release in releases:
