@@ -20,7 +20,7 @@
       <environment insert="" mode="prepend" name="PYTHONPATH"/>
     </requires>
 
-    <requires interface="http://0install.net/tools/0template.xml">
+    <requires interface="http://0install.net/tools/0template.xml" version="0.10..">
       <executable-in-path name="0template"/>
     </requires>
 

@@ -61,5 +61,5 @@ def already_known(version):
 for release in releases:
     version = model.parse_version(release['version'])
     if already_known(version): continue
-    retval = subprocess.call(['0template', '--output', output_file(version), template_file] + [key + '=' + value for (key, value) in release.items()])
+    retval = subprocess.call(['0template', '--force-download', '--output', output_file(version), template_file] + [key + '=' + value for (key, value) in release.items()])
     if retval != 0: sys.exit(retval)
