@@ -11,7 +11,7 @@
 
   <feed-for interface="https://apps.0install.net/0install/0watch.xml"/>
 
-  <group license="OSI Approved :: GNU Lesser General Public License (LGPL)">
+  <group license="LGPL-2.1-or-later">
     <command name="run" path="0watch.py">
       <runner interface="https://apps.0install.net/python/python.xml"/>
     </command>
