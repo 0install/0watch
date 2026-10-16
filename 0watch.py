@@ -17,7 +17,16 @@ def die(msg):
     sys.exit(1)
 
 def load(name, path):
-    if sys.version_info >= (3,):
+    if sys.version_info >= (3, 5):
+        import importlib.util
+        from importlib.machinery import SourceFileLoader
+        loader = SourceFileLoader(name, path)
+        spec = importlib.util.spec_from_file_location(name, path, loader=loader)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        loader.exec_module(module)
+        return module
+    elif sys.version_info >= (3,):
         from importlib.machinery import SourceFileLoader
         return SourceFileLoader(name, path).load_module()
     else:
